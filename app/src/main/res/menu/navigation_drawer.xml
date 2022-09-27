@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/favourite"
+        android:icon="@drawable/heart"
+        android:title="favourite" />
+    <item
+        android:id="@+id/rateUs"
+        android:icon="@drawable/ic_rate_us"
+        android:title="Rate'Us" />
+    <item
+        android:id="@+id/shareApp"
+        android:icon="@drawable/ic_baseline_share_24"
+        android:title="Share" />
+    <item
+        android:id="@+id/policy"
+        android:icon="@drawable/term_condition"
+        android:title="Terms and Condition" />
+    <item
+        android:id="@+id/aboutDeveloper"
+        android:icon="@drawable/information"
+        android:title="About Developer" />
+</menu>
