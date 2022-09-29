@@ -1,16 +1,17 @@
 package com.example.datingapp.activity
 
-import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
+import android.provider.Contacts.SettingsColumns.KEY
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.example.datingapp.MainActivity
 import com.example.datingapp.R
+import com.example.datingapp.Ui.DatingFragment
 import com.example.datingapp.databinding.ActivityLoginBinding
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
@@ -38,6 +39,14 @@ class LoginActivity : AppCompatActivity()  {
             .setCancelable(false)
             .create()
 
+
+        binding.skipLogin.setOnClickListener {
+
+            getSkip()
+
+            startActivity(Intent(this,MainActivity::class.java))
+        }
+
         binding.SendOTP.setOnClickListener {
          if (binding.UserNumber.text!!.isEmpty()){
              binding.UserNumber.error = "Please enter your number"
@@ -53,6 +62,18 @@ class LoginActivity : AppCompatActivity()  {
                 verifyOtp(binding.UserOtp.text.toString())
             }
         }
+    }
+
+    private fun getSkip() {
+        var AppDetails : SharedPreferences? = null
+        var skip = "data"
+
+        val KEY = "data"
+        AppDetails = getSharedPreferences("AppDetails", MODE_PRIVATE)
+
+
+
+
     }
 
     private fun verifyOtp(Otp: String) {
@@ -124,6 +145,10 @@ class LoginActivity : AppCompatActivity()  {
             .addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError){
                 dialog.dismiss()
+
+
+
+
                 Toast.makeText(this@LoginActivity,p0.message, Toast.LENGTH_SHORT).show()
             }
                 override fun onDataChange(p0: DataSnapshot){

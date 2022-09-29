@@ -26,21 +26,52 @@ class ChatsActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-         getData(intent.getStringExtra("chat_id"))
+       //  getData(intent.getStringExtra("chat_id"))
+        verifyChatId()
+
         binding.sendMessage.setOnClickListener {
             if (binding.typing.text.isEmpty()) {
                 Toast.makeText(this, "Please enter your message", Toast.LENGTH_SHORT).show()
             } else {
-                sendMessage(binding.typing.text.toString())
+                storeData(binding.typing.text.toString())
             }
         }
 
 
     }
+    private var senderId :String? = null
+    private var chatId :String? = null
+    private fun verifyChatId() {
+        val receiverId = intent.getStringExtra("userId")
+        senderId = FirebaseAuth.getInstance().currentUser!!.phoneNumber
+
+         chatId = senderId + receiverId
+        val reverseChatId = receiverId+senderId
+
+
+        val reference =   FirebaseDatabase.getInstance().getReference("chats")
+        reference.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.hasChild(chatId!!)){
+                    getData(chatId)
+                }else if (snapshot.hasChild(reverseChatId)){
+                   chatId = reverseChatId
+                    getData(chatId)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@ChatsActivity, "Something went wrong", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
+    }
 
     private fun getData(chatId: String?) {
 
-        
+        System.out.println("chatId: " + chatId);
+
 
             FirebaseDatabase.getInstance().getReference("chats")
                 .child(chatId!!).addValueEventListener(object : ValueEventListener{
@@ -61,11 +92,9 @@ class ChatsActivity : AppCompatActivity() {
 
     }
 
-    private fun sendMessage(msg: String) {
-        val receiverId = intent.getStringExtra("userId")
-        val senderId = FirebaseAuth.getInstance().currentUser!!.phoneNumber
 
-        val chatId = senderId + receiverId
+
+    private fun storeData( msg: String) {
         val currentTime: String = SimpleDateFormat("HH:mm a", Locale.getDefault()).format(Date())
         val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
 
@@ -75,12 +104,15 @@ class ChatsActivity : AppCompatActivity() {
         map["senderId"] = senderId!!
         map["currentTime"] = currentTime
         map["currentDate"] = currentDate
-
-        val reference =   FirebaseDatabase.getInstance().getReference("chats").child(chatId)
+        val reference =   FirebaseDatabase.getInstance().getReference("chats").child(chatId!!)
         reference.child(reference.push().key!!)
             .setValue(map).addOnCompleteListener {
                 if (it.isSuccessful) {
                     binding.typing.text = null
+
+
+
+
                     Toast.makeText(this, "Message send", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "Message not send! Please send again", Toast.LENGTH_LONG)

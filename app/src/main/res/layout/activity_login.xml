@@ -141,4 +141,15 @@
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Skip"
+        android:layout_margin="25dp"
+        android:textAllCaps="false"
+        android:id="@+id/skipLogin"
+        android:background="@drawable/buttom_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

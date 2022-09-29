@@ -29,7 +29,8 @@ class DatingAdapter(val context: Context,val list: ArrayList<UserModel>) : Recyc
 
         holder.binding.messageDetails.setOnClickListener {
             val mintent = Intent(context,ChatsActivity::class.java)
-            mintent.putExtra("userId",list[position].number)
+            mintent.putExtra("chat_id", "+918986113306")
+            System.out.println("chatId1" + list[position].number);
             context.startActivity(mintent)
         }
 

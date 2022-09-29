@@ -19,35 +19,48 @@ import com.google.firebase.database.ValueEventListener
 
 
 class MessageFragment : Fragment() {
-    private lateinit var binding : FragmentMessageBinding
+    private lateinit var binding: FragmentMessageBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMessageBinding.inflate(layoutInflater)
 
-        getData()
 
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        getData()
+    }
+
     private fun getData() {
         Config.showDialog(requireContext())
-        var list = arrayListOf<String>()
-        var newList = arrayListOf<String>()
+
         val currentId = FirebaseAuth.getInstance().currentUser!!.phoneNumber
         FirebaseDatabase.getInstance().getReference("chats")
-            .addValueEventListener(object : ValueEventListener{
+            .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-
-                    for (data in snapshot.children){
-                        if (data.key!!.contains(currentId!!)){
-                            list.add(data.key!!.replace(currentId!!,""))
+                    var list = arrayListOf<String>()
+                    var newList = arrayListOf<String>()
+                    for (data in snapshot.children) {
+                        if (data.key!!.contains(currentId!!)) {
+                            list.add(data.key!!.replace(currentId!!, ""))
                             newList.add((data.key!!))
                         }
                     }
+                    try {
 
-                    binding.recycleView.adapter = MessageUserAdapter(requireContext(), list, newList)
+
+                        binding.recycleView.adapter =
+                            MessageUserAdapter(requireContext(), list, newList)
+                    } catch (e: Exception) {
+
+                    }
+
+
                     Config.hideDialog()
                 }
 
@@ -57,6 +70,5 @@ class MessageFragment : Fragment() {
 
             })
     }
-
 
 }

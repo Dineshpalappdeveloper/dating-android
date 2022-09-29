@@ -1,5 +1,6 @@
 package com.example.datingapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -8,6 +9,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.datingapp.activity.DeveloperActivity
 import com.example.datingapp.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 
@@ -48,7 +50,8 @@ class MainActivity : AppCompatActivity() , OnNavigationItemSelectedListener  {
                Toast.makeText(this,"Favourite", Toast.LENGTH_SHORT).show()
            }
            R.id.aboutDeveloper -> {
-               Toast.makeText(this,"About Developer", Toast.LENGTH_SHORT).show()
+               Toast.makeText(this,"Welcome", Toast.LENGTH_SHORT).show()
+               startActivity(Intent(this,DeveloperActivity::class.java))
            }
        }
         return true

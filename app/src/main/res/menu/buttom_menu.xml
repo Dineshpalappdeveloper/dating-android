@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@id/datingFragment"
-        android:icon="@drawable/ic_heart"
+        android:icon="@drawable/datingheart"
         android:title="@string/dating" />
     <item
         android:id="@id/messageFragment"
@@ -10,6 +10,6 @@
         android:title="@string/message" />
     <item
         android:id="@id/profileFragment"
-        android:icon="@drawable/ic_person"
+        android:icon="@drawable/profileedit"
         android:title="@string/profile" />
 </menu>
